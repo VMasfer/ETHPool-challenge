@@ -1,13 +1,14 @@
-import 'dotenv/config';
-import '@nomiclabs/hardhat-waffle';
 import '@nomiclabs/hardhat-ethers';
+import '@nomiclabs/hardhat-waffle';
 import '@nomiclabs/hardhat-etherscan';
 import '@typechain/hardhat';
 import '@typechain/hardhat/dist/type-extensions';
-import { removeConsoleLog } from 'hardhat-preprocessor';
 import 'hardhat-deploy';
 import { HardhatUserConfig, MultiSolcUserConfig, NetworksUserConfig } from 'hardhat/types';
+import { removeConsoleLog } from 'hardhat-preprocessor';
+import 'dotenv/config';
 import 'tsconfig-paths/register';
+import './tasks/query-eth.ts';
 
 const networks: NetworksUserConfig = process.env.TEST
   ? {}
