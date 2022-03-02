@@ -2,7 +2,7 @@ import { task, types } from 'hardhat/config';
 import { BigNumber } from 'ethers';
 
 task('query-eth', 'Queries the total amount of ETH held in the contract')
-  .addOptionalParam('ethPool', 'The ETHPool contract address', '0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA', types.string)
+  .addOptionalParam('ethPool', 'The ETHPool contract address', '0xb94075688599A5E1Bfa24c3a885500431AA904e4', types.string)
   .setAction(async (taskArgs, hre) => {
     // getting deployed contract
     let ethPool = await hre.ethers.getContractAt('ETHPool', taskArgs.ethPool);
