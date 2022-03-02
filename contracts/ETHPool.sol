@@ -46,8 +46,8 @@ contract ETHPool is IETHPool, AccessControl {
     uint256 userETH = userDepositValue + getUserRewards(msg.sender);
     //solhint-disable-next-line
     require(address(this).balance >= userETH, 'Insufficient ether in contract balance');
-    ethPool -= userDepositValue;
     delete userToDeposit[msg.sender];
+    ethPool -= userDepositValue;
     emit UserETHWithdrawn(msg.sender, userETH, block.timestamp);
     //solhint-disable-next-line
     (bool sent, ) = msg.sender.call{value: userETH}('');
@@ -82,7 +82,7 @@ contract ETHPool is IETHPool, AccessControl {
   }
 
   function getUserRewards(address _user) public view override returns (uint256) {
-    UserDeposit memory userDeposit = userToDeposit[_user];
+    UserDeposit storage userDeposit = userToDeposit[_user];
     uint256 userRewardsPerToken = rewardsPerToken - userDeposit.rewardsPerTokenCredited;
     uint256 userRewards = userRewardsPerToken * userDeposit.deposit + userDeposit.unclaimedRewards;
     return userRewards;
