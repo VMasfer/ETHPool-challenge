@@ -1,4 +1,5 @@
 import { ethers } from 'hardhat';
+import { utils } from 'ethers';
 import { evm } from '@utils';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signers';
 import { ETHPool, ETHPool__factory } from '@typechained';
@@ -44,17 +45,27 @@ describe('ETHPool.sol', function () {
   });
 
   describe('constructor()', function () {
-    it('should execute Ownable constructor', async () => {
-      let owner = await ethPool.owner();
-      expect(owner).to.equal(team.address);
+    it('should setup the admin role', async () => {
+      let adminRole = await ethPool.DEFAULT_ADMIN_ROLE();
+      let isAdmin = await ethPool.hasRole(adminRole, team.address);
+      expect(isAdmin).to.eq(true);
+    });
+
+    it('should setup the team member role', async () => {
+      let teamMemberRole = await ethPool.TEAM_MEMBER();
+      let isTeamMember = await ethPool.hasRole(teamMemberRole, team.address);
+      expect(isTeamMember).to.eq(true);
     });
   });
 
   describe('receive()', function () {
-    it('should revert if sender is not the owner', async () => {
+    it('should revert if sender is not a team member', async () => {
+      let teamMemberRole = await ethPool.TEAM_MEMBER();
       let _value = 1000000;
       let tx = user1.sendTransaction({ to: ethPool.address, value: _value });
-      await expect(tx).to.be.revertedWith('Ownable: caller is not the owner');
+      await expect(tx).to.be.revertedWith(
+        'AccessControl: account ' + utils.hexlify(user1.address) + ' is missing role ' + utils.hexlify(teamMemberRole)
+      );
     });
 
     it('should emit TeamETHReceived', async () => {
@@ -167,9 +178,12 @@ describe('ETHPool.sol', function () {
   });
 
   describe('depositPoolReward()', function () {
-    it('should revert if caller is not the owner', async () => {
+    it('should revert if caller is not a team member', async () => {
+      let teamMemberRole = await ethPool.TEAM_MEMBER();
       let rewardValue = 1000;
-      await expect(ethPool.connect(user1).depositPoolReward({ value: rewardValue })).to.be.revertedWith('Ownable: caller is not the owner');
+      await expect(ethPool.connect(user1).depositPoolReward({ value: rewardValue })).to.be.revertedWith(
+        'AccessControl: account ' + utils.hexlify(user1.address) + ' is missing role ' + utils.hexlify(teamMemberRole)
+      );
     });
 
     it("should revert if there's nothing to reward", async () => {
@@ -224,9 +238,12 @@ describe('ETHPool.sol', function () {
   });
 
   describe('withdrawTeamETH(...)', function () {
-    it('should revert if caller is not the owner', async () => {
+    it('should revert if caller is not a team member', async () => {
+      let teamMemberRole = await ethPool.TEAM_MEMBER();
       let _value = 1000000;
-      await expect(ethPool.connect(user1).withdrawTeamETH(_value)).to.be.revertedWith('Ownable: caller is not the owner');
+      await expect(ethPool.connect(user1).withdrawTeamETH(_value)).to.be.revertedWith(
+        'AccessControl: account ' + utils.hexlify(user1.address) + ' is missing role ' + utils.hexlify(teamMemberRole)
+      );
     });
 
     it('should revert if ether in contract balance is insufficient', async () => {
