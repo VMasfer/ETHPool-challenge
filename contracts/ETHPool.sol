@@ -12,9 +12,7 @@ contract ETHPool is IETHPool, ERC20, AccessControl {
   uint256 public rewardsPerToken;
   uint256 public rewardTime;
 
-  event UserETHDeposited(address indexed _user, uint256 _deposit, uint256 _date);
-  event UserETHWithdrawn(address indexed _user, uint256 _userETH, uint256 _date);
-  event PoolRewardDeposited(address indexed _teamMember, uint256 _reward, uint256 _ethPool, uint256 _date);
+  event PoolRewardDeposited(address indexed _teamMember, uint256 _reward, uint256 _rewardPerToken);
   event TeamETHReceived(address indexed _teamMember, uint256 _value);
   event TeamETHWithdrawn(address indexed _teamMember, uint256 _value);
 
@@ -33,7 +31,6 @@ contract ETHPool is IETHPool, ERC20, AccessControl {
 
   function depositUserETH() external payable override {
     _mint(msg.sender, msg.value);
-    emit UserETHDeposited(msg.sender, msg.value, block.timestamp);
   }
 
   function withdrawUserETH() external override {
@@ -42,7 +39,6 @@ contract ETHPool is IETHPool, ERC20, AccessControl {
     //solhint-disable-next-line
     require(address(this).balance >= userETH, 'Insufficient ether in contract balance');
     _burn(msg.sender, userDeposit);
-    emit UserETHWithdrawn(msg.sender, userETH, block.timestamp);
     //solhint-disable-next-line
     (bool sent, ) = msg.sender.call{value: userETH}('');
     require(sent, 'Failed to send ether');
@@ -52,9 +48,10 @@ contract ETHPool is IETHPool, ERC20, AccessControl {
     uint256 ethPool = totalSupply();
     require(ethPool != 0, 'Nothing to reward');
     require(rewardTime <= block.timestamp, 'It has not been a week yet');
-    rewardsPerToken += (msg.value * 1 ether) / ethPool;
+    uint256 rewardPerToken = (msg.value * 1 ether) / ethPool;
+    rewardsPerToken += rewardPerToken;
     rewardTime = block.timestamp + 1 weeks;
-    emit PoolRewardDeposited(msg.sender, msg.value, ethPool, block.timestamp);
+    emit PoolRewardDeposited(msg.sender, msg.value, rewardPerToken);
   }
 
   function withdrawTeamETH(uint256 _value) external onlyRole(TEAM_MEMBER) {

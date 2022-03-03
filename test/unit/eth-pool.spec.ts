@@ -126,14 +126,6 @@ describe('ETHPool.sol', function () {
           .withArgs(ethers.constants.AddressZero, user1.address, depositValue);
       });
     });
-
-    it('should emit UserETHDeposited', async () => {
-      let depositValue = 1000000;
-      let timestamp = (await ethers.provider.getBlock('latest')).timestamp + 1;
-      await expect(ethPool.connect(user1).depositUserETH({ value: depositValue }))
-        .to.emit(ethPool, 'UserETHDeposited')
-        .withArgs(user1.address, depositValue, timestamp);
-    });
   });
 
   describe('withdrawUserETH()', function () {
@@ -179,16 +171,6 @@ describe('ETHPool.sol', function () {
       });
     });
 
-    it('should emit UserETHWithdrawn', async () => {
-      let depositValue = 1000000;
-      let rewardValue = 1000;
-      await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
-      let userETH = await ethPool.getUserETH(user1.address);
-      let timestamp = (await ethers.provider.getBlock('latest')).timestamp + 1;
-      await expect(ethPool.connect(user1).withdrawUserETH()).to.emit(ethPool, 'UserETHWithdrawn').withArgs(user1.address, userETH, timestamp);
-    });
-
     it('should send ether', async () => {
       let depositValue = 1000000;
       let rewardValue = 1000;
@@ -231,9 +213,9 @@ describe('ETHPool.sol', function () {
         let rewardTime = await ethPool.rewardTime();
         evm.advanceTimeAndBlock(rewardTime.toNumber());
         let _ethPool = await ethPool.totalSupply();
-        let newRewardPerToken = ethers.BigNumber.from(rewardValue).mul(utils.parseEther('1')).div(_ethPool);
+        let rewardPerToken = ethers.BigNumber.from(rewardValue).mul(utils.parseEther('1')).div(_ethPool);
         let rewardsPerToken = await ethPool.rewardsPerToken();
-        expect(rewardsPerToken).to.eq(oldRewardsPerToken.add(newRewardPerToken));
+        expect(rewardsPerToken).to.eq(oldRewardsPerToken.add(rewardPerToken));
       }
     });
 
@@ -252,10 +234,10 @@ describe('ETHPool.sol', function () {
       let rewardValue = 1000;
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
       let _ethPool = await ethPool.totalSupply();
-      let timestamp = (await ethers.provider.getBlock('latest')).timestamp + 1;
+      let rewardPerToken = ethers.BigNumber.from(rewardValue).mul(utils.parseEther('1')).div(_ethPool);
       await expect(ethPool.connect(team).depositPoolReward({ value: rewardValue }))
         .to.emit(ethPool, 'PoolRewardDeposited')
-        .withArgs(team.address, rewardValue, _ethPool, timestamp);
+        .withArgs(team.address, rewardValue, rewardPerToken);
     });
   });
 
