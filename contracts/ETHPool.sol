@@ -1,10 +1,11 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity >=0.8.4 <0.9.0;
 
-import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/access/AccessControl.sol';
 import './IETHPool.sol';
 
-contract ETHPool is IETHPool, Ownable {
+contract ETHPool is IETHPool, AccessControl {
+  bytes32 public constant TEAM_MEMBER = keccak256('TEAM_MEMBER');
   mapping(address => UserDeposit) public userToDeposit;
   uint256 public rewardsPerToken;
   uint256 public rewardTime;
@@ -12,11 +13,16 @@ contract ETHPool is IETHPool, Ownable {
 
   event UserETHDeposited(address indexed _user, uint256 _deposit, uint256 _date);
   event UserETHWithdrawn(address indexed _user, uint256 _userETH, uint256 _date);
-  event PoolRewardDeposited(address indexed _team, uint256 _reward, uint256 _ethPool, uint256 _date);
-  event TeamETHReceived(address indexed _team, uint256 _value);
-  event TeamETHWithdrawn(address indexed _team, uint256 _value);
+  event PoolRewardDeposited(address indexed _teamMember, uint256 _reward, uint256 _ethPool, uint256 _date);
+  event TeamETHReceived(address indexed _teamMember, uint256 _value);
+  event TeamETHWithdrawn(address indexed _teamMember, uint256 _value);
 
-  receive() external payable onlyOwner {
+  constructor() {
+    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    _setupRole(TEAM_MEMBER, msg.sender);
+  }
+
+  receive() external payable onlyRole(TEAM_MEMBER) {
     emit TeamETHReceived(msg.sender, msg.value);
   }
 
@@ -48,7 +54,7 @@ contract ETHPool is IETHPool, Ownable {
     require(sent, 'Failed to send ether');
   }
 
-  function depositPoolReward() external payable onlyOwner {
+  function depositPoolReward() external payable onlyRole(TEAM_MEMBER) {
     require(ethPool != 0, 'Nothing to reward');
     require(rewardTime <= block.timestamp, 'It has not been a week yet');
     rewardsPerToken += (msg.value * 1 ether) / ethPool;
@@ -56,7 +62,7 @@ contract ETHPool is IETHPool, Ownable {
     emit PoolRewardDeposited(msg.sender, msg.value, ethPool, block.timestamp);
   }
 
-  function withdrawTeamETH(uint256 _value) external onlyOwner {
+  function withdrawTeamETH(uint256 _value) external onlyRole(TEAM_MEMBER) {
     //solhint-disable-next-line
     require(address(this).balance >= _value, 'Insufficient ether in contract balance');
     emit TeamETHWithdrawn(msg.sender, _value);

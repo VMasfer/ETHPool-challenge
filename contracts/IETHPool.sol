@@ -1,7 +1,9 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity >=0.8.4 <0.9.0;
 
-interface IETHPool {
+import '@openzeppelin/contracts/access/IAccessControl.sol';
+
+interface IETHPool is IAccessControl {
   struct UserDeposit {
     uint256 deposit;
     uint256 rewardsPerTokenCredited;
