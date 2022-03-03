@@ -45,6 +45,13 @@ describe('ETHPool.sol', function () {
   });
 
   describe('constructor()', function () {
+    it('should execute ERC20 constructor', async () => {
+      let name = await ethPool.name();
+      let symbol = await ethPool.symbol();
+      expect(name).to.equal('Pooled ETH');
+      expect(symbol).to.equal('pETH');
+    });
+
     it('should setup the admin role', async () => {
       let adminRole = await ethPool.DEFAULT_ADMIN_ROLE();
       let isAdmin = await ethPool.hasRole(adminRole, team.address);
@@ -89,40 +96,35 @@ describe('ETHPool.sol', function () {
   });
 
   describe('depositUserETH()', function () {
-    it('should revert if no ether was sent to deposit', async () => {
-      let depositValue = 0;
-      await expect(ethPool.depositUserETH({ value: depositValue })).to.be.revertedWith('No ether sent to deposit');
-    });
+    describe('_mint(...)', function () {
+      it('should store the user unclaimed rewards', async () => {
+        let depositValue = 1000000;
+        let rewardValue = 1000;
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+        let userRewards = await ethPool.getUserRewards(user1.address);
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        let userUnclaimedRewards = await ethPool.userToUnclaimedRewards(user1.address);
+        expect(userUnclaimedRewards).to.eq(userRewards);
+      });
 
-    it('should create a new UserDeposit taking into account the current userETH', async () => {
-      let depositValue = 1000000;
-      let rewardValue = 1000;
-      await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      let userDepositValue = (await ethPool.userToDeposit(user1.address)).deposit;
-      let rewardsPerToken = await ethPool.rewardsPerToken();
-      let userRewards = await ethPool.getUserRewards(user1.address);
-      let newUserDeposit = [userDepositValue, rewardsPerToken, userRewards];
-      let userDeposit = await ethPool.userToDeposit(user1.address);
-      expect(userDeposit).to.eql(newUserDeposit);
-      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
-      let rewardTime = await ethPool.rewardTime();
-      evm.advanceTimeAndBlock(rewardTime.toNumber());
-      await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      userDepositValue = userDepositValue.add(depositValue);
-      rewardsPerToken = await ethPool.rewardsPerToken();
-      userRewards = await ethPool.getUserRewards(user1.address);
-      newUserDeposit = [userDepositValue, rewardsPerToken, userRewards];
-      userDeposit = await ethPool.userToDeposit(user1.address);
-      expect(userDeposit).to.eql(newUserDeposit);
-    });
+      it('should update the rewards per token credited to the user', async () => {
+        let depositValue = 1000000;
+        let rewardValue = 1000;
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+        let rewardsPerToken = await ethPool.rewardsPerToken();
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        let userRewardsPerTokenCredited = await ethPool.userToRewardsPerTokenCredited(user1.address);
+        expect(userRewardsPerTokenCredited).to.eq(rewardsPerToken);
+      });
 
-    it('should add deposit to ethPool', async () => {
-      let depositValue = 1000000;
-      for (let i = 1; i <= 3; i++) {
-        await ethPool.depositUserETH({ value: depositValue });
-        let _ethPool = await ethPool.ethPool();
-        expect(_ethPool).to.eq(depositValue * i);
-      }
+      it('should emit Transfer', async () => {
+        let depositValue = 1000000;
+        await expect(ethPool.connect(user1).depositUserETH({ value: depositValue }))
+          .to.emit(ethPool, 'Transfer')
+          .withArgs(ethers.constants.AddressZero, user1.address, depositValue);
+      });
     });
 
     it('should emit UserETHDeposited', async () => {
@@ -142,28 +144,46 @@ describe('ETHPool.sol', function () {
       await expect(ethPool.connect(user1).withdrawUserETH()).to.be.revertedWith('Insufficient ether in contract balance');
     });
 
-    it('should delete the UserDeposit', async () => {
-      let depositValue = 1000000;
-      await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      await ethPool.connect(user1).withdrawUserETH();
-      let deletedUserDeposit = [ethers.BigNumber.from(0), ethers.BigNumber.from(0), ethers.BigNumber.from(0)];
-      let userDeposit = await ethPool.userToDeposit(user1.address);
-      expect(userDeposit).to.eql(deletedUserDeposit);
-    });
+    describe('_burn(...)', function () {
+      it('should reset the user unclaimed rewards', async () => {
+        let depositValue = 1000000;
+        let rewardValue = 1000;
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        await ethPool.connect(user1).withdrawUserETH();
+        let userUnclaimedRewards = await ethPool.userToUnclaimedRewards(user1.address);
+        expect(userUnclaimedRewards).to.eq(0);
+      });
 
-    it('should update ethPool', async () => {
-      let depositValue = 1000000;
-      await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      await ethPool.connect(user2).depositUserETH({ value: depositValue });
-      let oldETHPool = await ethPool.ethPool();
-      await ethPool.connect(user2).withdrawUserETH();
-      let _ethPool = await ethPool.ethPool();
-      expect(_ethPool).to.eq(oldETHPool.sub(depositValue));
+      it('should reset the rewards per token credited to the user', async () => {
+        let depositValue = 1000000;
+        let rewardValue = 1000;
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        await ethPool.connect(user1).withdrawUserETH();
+        let userRewardsPerTokenCredited = await ethPool.userToRewardsPerTokenCredited(user1.address);
+        expect(userRewardsPerTokenCredited).to.eq(0);
+      });
+
+      it('should emit Transfer', async () => {
+        let depositValue = 1000000;
+        let rewardValue = 1000;
+        await ethPool.connect(user1).depositUserETH({ value: depositValue });
+        let userDeposit = await ethPool.balanceOf(user1.address);
+        await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+        await expect(ethPool.connect(user1).withdrawUserETH())
+          .to.emit(ethPool, 'Transfer')
+          .withArgs(user1.address, ethers.constants.AddressZero, userDeposit);
+      });
     });
 
     it('should emit UserETHWithdrawn', async () => {
       let depositValue = 1000000;
+      let rewardValue = 1000;
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
       let userETH = await ethPool.getUserETH(user1.address);
       let timestamp = (await ethers.provider.getBlock('latest')).timestamp + 1;
       await expect(ethPool.connect(user1).withdrawUserETH()).to.emit(ethPool, 'UserETHWithdrawn').withArgs(user1.address, userETH, timestamp);
@@ -171,7 +191,9 @@ describe('ETHPool.sol', function () {
 
     it('should send ether', async () => {
       let depositValue = 1000000;
+      let rewardValue = 1000;
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
       let userETH = await ethPool.getUserETH(user1.address);
       await expect(() => ethPool.connect(user1).withdrawUserETH()).to.changeEtherBalances([ethPool, user1], [-userETH, userETH]);
     });
@@ -208,7 +230,7 @@ describe('ETHPool.sol', function () {
         await ethPool.connect(team).depositPoolReward({ value: rewardValue });
         let rewardTime = await ethPool.rewardTime();
         evm.advanceTimeAndBlock(rewardTime.toNumber());
-        let _ethPool = await ethPool.ethPool();
+        let _ethPool = await ethPool.totalSupply();
         let newRewardPerToken = ethers.BigNumber.from(rewardValue).mul(utils.parseEther('1')).div(_ethPool);
         let rewardsPerToken = await ethPool.rewardsPerToken();
         expect(rewardsPerToken).to.eq(oldRewardsPerToken.add(newRewardPerToken));
@@ -229,7 +251,7 @@ describe('ETHPool.sol', function () {
       let depositValue = 1000000;
       let rewardValue = 1000;
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      let _ethPool = await ethPool.ethPool();
+      let _ethPool = await ethPool.totalSupply();
       let timestamp = (await ethers.provider.getBlock('latest')).timestamp + 1;
       await expect(ethPool.connect(team).depositPoolReward({ value: rewardValue }))
         .to.emit(ethPool, 'PoolRewardDeposited')
@@ -281,13 +303,13 @@ describe('ETHPool.sol', function () {
       let userETH = await ethPool.getUserETH(user1.address);
       expect(userETH).to.eq(0);
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      let userDepositValue = (await ethPool.userToDeposit(user1.address)).deposit;
+      let userDeposit = await ethPool.balanceOf(user1.address);
       userETH = await ethPool.getUserETH(user1.address);
-      expect(userETH).to.eq(userDepositValue);
+      expect(userETH).to.eq(userDeposit);
       await ethPool.connect(team).depositPoolReward({ value: rewardValue });
       let userRewards = await ethPool.getUserRewards(user1.address);
       userETH = await ethPool.getUserETH(user1.address);
-      expect(userETH).to.eq(userDepositValue.add(userRewards));
+      expect(userETH).to.eq(userDeposit.add(userRewards));
     });
   });
 
@@ -298,29 +320,93 @@ describe('ETHPool.sol', function () {
       let userRewards = await ethPool.getUserRewards(user1.address);
       expect(userRewards).to.eq(0);
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      let userDeposit = await ethPool.userToDeposit(user1.address);
+      let userDeposit = await ethPool.balanceOf(user1.address);
       userRewards = await ethPool.getUserRewards(user1.address);
       expect(userRewards).to.eq(0);
       await ethPool.connect(team).depositPoolReward({ value: rewardValue });
       let rewardTime = await ethPool.rewardTime();
       evm.advanceTimeAndBlock(rewardTime.toNumber());
       let rewardsPerToken = await ethPool.rewardsPerToken();
-      let userRewardsPerToken = rewardsPerToken.sub(userDeposit.rewardsPerTokenCredited).div(utils.parseEther('1'));
+      let userRewardsPerTokenCredited = await ethPool.userToRewardsPerTokenCredited(user1.address);
+      let userRewardsPerToken = rewardsPerToken.sub(userRewardsPerTokenCredited).div(utils.parseEther('1'));
       userRewards = await ethPool.getUserRewards(user1.address);
-      expect(userRewards).to.eq(userRewardsPerToken.mul(userDeposit.deposit));
+      expect(userRewards).to.eq(userRewardsPerToken.mul(userDeposit));
       await ethPool.connect(user1).depositUserETH({ value: depositValue });
-      userDeposit = await ethPool.userToDeposit(user1.address);
-      expect(userRewards).to.eq(userDeposit.unclaimedRewards);
+      userDeposit = await ethPool.balanceOf(user1.address);
+      let userUnclaimedRewards = await ethPool.userToUnclaimedRewards(user1.address);
+      expect(userRewards).to.eq(userUnclaimedRewards);
       await ethPool.connect(team).depositPoolReward({ value: rewardValue });
       rewardTime = await ethPool.rewardTime();
       evm.advanceTimeAndBlock(rewardTime.toNumber());
       rewardsPerToken = await ethPool.rewardsPerToken();
-      userRewardsPerToken = rewardsPerToken.sub(userDeposit.rewardsPerTokenCredited).div(utils.parseEther('1'));
+      userRewardsPerTokenCredited = await ethPool.userToRewardsPerTokenCredited(user1.address);
+      userRewardsPerToken = rewardsPerToken.sub(userRewardsPerTokenCredited).div(utils.parseEther('1'));
       userRewards = await ethPool.getUserRewards(user1.address);
-      expect(userRewards).to.eq(userRewardsPerToken.mul(userDeposit.deposit).add(userDeposit.unclaimedRewards));
+      expect(userRewards).to.eq(userRewardsPerToken.mul(userDeposit).add(userUnclaimedRewards));
       await ethPool.connect(user1).withdrawUserETH();
       userRewards = await ethPool.getUserRewards(user1.address);
       expect(userRewards).to.eq(0);
+    });
+  });
+
+  describe('_transfer(...)', function () {
+    it('should store the sender unclaimed rewards', async () => {
+      let depositValue = 1000000;
+      let rewardValue = 1000;
+      let transferValue = 100;
+      await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+      let user1Rewards = await ethPool.getUserRewards(user1.address);
+      await ethPool.connect(user1).transfer(user2.address, transferValue);
+      let user1UnclaimedRewards = await ethPool.userToUnclaimedRewards(user1.address);
+      expect(user1UnclaimedRewards).to.eq(user1Rewards);
+    });
+
+    it('should update the rewards per token credited to the sender', async () => {
+      let depositValue = 1000000;
+      let rewardValue = 1000;
+      let transferValue = 100;
+      await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+      let rewardsPerToken = await ethPool.rewardsPerToken();
+      await ethPool.connect(user1).transfer(user2.address, transferValue);
+      let user1RewardsPerTokenCredited = await ethPool.userToRewardsPerTokenCredited(user1.address);
+      expect(user1RewardsPerTokenCredited).to.eq(rewardsPerToken);
+    });
+
+    it('should store the recipient unclaimed rewards', async () => {
+      let depositValue = 1000000;
+      let rewardValue = 1000;
+      let transferValue = 100;
+      await ethPool.connect(user2).depositUserETH({ value: depositValue });
+      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+      let user2Rewards = await ethPool.getUserRewards(user2.address);
+      await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await ethPool.connect(user1).transfer(user2.address, transferValue);
+      let user2UnclaimedRewards = await ethPool.userToUnclaimedRewards(user2.address);
+      expect(user2UnclaimedRewards).to.eq(user2Rewards);
+    });
+
+    it('should update the rewards per token credited to the recipient', async () => {
+      let depositValue = 1000000;
+      let rewardValue = 1000;
+      let transferValue = 100;
+      await ethPool.connect(user2).depositUserETH({ value: depositValue });
+      await ethPool.connect(team).depositPoolReward({ value: rewardValue });
+      let rewardsPerToken = await ethPool.rewardsPerToken();
+      await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await ethPool.connect(user1).transfer(user2.address, transferValue);
+      let user2RewardsPerTokenCredited = await ethPool.userToRewardsPerTokenCredited(user2.address);
+      expect(user2RewardsPerTokenCredited).to.eq(rewardsPerToken);
+    });
+
+    it('should emit Transfer', async () => {
+      let depositValue = 1000000;
+      let transferValue = 100;
+      await ethPool.connect(user1).depositUserETH({ value: depositValue });
+      await expect(ethPool.connect(user1).transfer(user2.address, transferValue))
+        .to.emit(ethPool, 'Transfer')
+        .withArgs(user1.address, user2.address, transferValue);
     });
   });
 });
