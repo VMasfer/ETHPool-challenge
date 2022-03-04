@@ -96,6 +96,8 @@ npx hardhat --network ropsten deploy
 - _ETHPool v2.0.0_: [0xaBc891A704260D5B3395A6295d8466276E78c306](https://ropsten.etherscan.io/address/0xaBc891A704260D5B3395A6295d8466276E78c306)
 - _ETHPool v1.0.0_: [0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA](https://ropsten.etherscan.io/address/0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA)
 
+For a detailed and exhaustive list of changes, see **[CHANGELOG.md](/CHANGELOG.md)**.
+
 ### Running the task
 
 To execute the Hardhat task that queries the total amount of ETH held in the contract, type:
