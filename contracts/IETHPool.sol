@@ -1,32 +1,22 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity >=0.8.4 <0.9.0;
 
-interface IETHPool {
+import '@openzeppelin/contracts/access/IAccessControl.sol';
+
+interface IETHPool is IAccessControl {
   struct UserDeposit {
-    address user;
     uint256 deposit;
-    uint256 week;
-    uint256 date;
-  }
-  struct PoolReward {
-    address team;
-    uint256 reward;
-    uint256 ethPool;
-    uint256 week;
-    uint256 date;
+    uint256 rewardsPerTokenCredited;
+    uint256 unclaimedRewards;
   }
 
   function depositUserETH() external payable;
 
-  function withdrawUserETH(uint256 _value) external;
-
-  function getPoolRewards() external view returns (PoolReward[] memory);
+  function withdrawUserETH() external;
 
   function getTeamETH() external view returns (uint256);
 
   function getUserETH(address _user) external view returns (uint256);
-
-  function getUserTotalRewards(address _user) external view returns (uint256);
 
   function getUserRewards(address _user) external view returns (uint256);
 }
