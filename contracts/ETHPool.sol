@@ -1,23 +1,22 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity >=0.8.4 <0.9.0;
 
+import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/access/AccessControl.sol';
 import './IETHPool.sol';
 
-contract ETHPool is IETHPool, AccessControl {
+contract ETHPool is IETHPool, ERC20, AccessControl {
   bytes32 public constant TEAM_MEMBER = keccak256('TEAM_MEMBER');
-  mapping(address => UserDeposit) public userToDeposit;
+  mapping(address => uint256) public userToUnclaimedRewards;
+  mapping(address => uint256) public userToRewardsPerTokenCredited;
   uint256 public rewardsPerToken;
   uint256 public rewardTime;
-  uint256 public ethPool;
 
-  event UserETHDeposited(address indexed _user, uint256 _deposit, uint256 _date);
-  event UserETHWithdrawn(address indexed _user, uint256 _userETH, uint256 _date);
-  event PoolRewardDeposited(address indexed _teamMember, uint256 _reward, uint256 _ethPool, uint256 _date);
+  event PoolRewardDeposited(address indexed _teamMember, uint256 _reward, uint256 _rewardPerToken);
   event TeamETHReceived(address indexed _teamMember, uint256 _value);
   event TeamETHWithdrawn(address indexed _teamMember, uint256 _value);
 
-  constructor() {
+  constructor() ERC20('Pooled ETH', 'pETH') {
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _setupRole(TEAM_MEMBER, msg.sender);
   }
@@ -31,35 +30,28 @@ contract ETHPool is IETHPool, AccessControl {
   }
 
   function depositUserETH() external payable override {
-    require(msg.value != 0, 'No ether sent to deposit');
-    UserDeposit memory userDeposit = userToDeposit[msg.sender];
-    userDeposit.deposit += msg.value;
-    userDeposit.rewardsPerTokenCredited = rewardsPerToken;
-    userDeposit.unclaimedRewards = getUserRewards(msg.sender);
-    userToDeposit[msg.sender] = userDeposit;
-    ethPool += msg.value;
-    emit UserETHDeposited(msg.sender, msg.value, block.timestamp);
+    _mint(msg.sender, msg.value);
   }
 
   function withdrawUserETH() external override {
-    uint256 userDepositValue = userToDeposit[msg.sender].deposit;
-    uint256 userETH = userDepositValue + getUserRewards(msg.sender);
+    uint256 userDeposit = balanceOf(msg.sender);
+    uint256 userETH = userDeposit + getUserRewards(msg.sender);
     //solhint-disable-next-line
     require(address(this).balance >= userETH, 'Insufficient ether in contract balance');
-    delete userToDeposit[msg.sender];
-    ethPool -= userDepositValue;
-    emit UserETHWithdrawn(msg.sender, userETH, block.timestamp);
+    _burn(msg.sender, userDeposit);
     //solhint-disable-next-line
     (bool sent, ) = msg.sender.call{value: userETH}('');
     require(sent, 'Failed to send ether');
   }
 
   function depositPoolReward() external payable onlyRole(TEAM_MEMBER) {
+    uint256 ethPool = totalSupply();
     require(ethPool != 0, 'Nothing to reward');
     require(rewardTime <= block.timestamp, 'It has not been a week yet');
-    rewardsPerToken += (msg.value * 1 ether) / ethPool;
+    uint256 rewardPerToken = (msg.value * 1 ether) / ethPool;
+    rewardsPerToken += rewardPerToken;
     rewardTime = block.timestamp + 1 weeks;
-    emit PoolRewardDeposited(msg.sender, msg.value, ethPool, block.timestamp);
+    emit PoolRewardDeposited(msg.sender, msg.value, rewardPerToken);
   }
 
   function withdrawTeamETH(uint256 _value) external onlyRole(TEAM_MEMBER) {
@@ -77,14 +69,32 @@ contract ETHPool is IETHPool, AccessControl {
   }
 
   function getUserETH(address _user) external view override returns (uint256) {
-    uint256 userETH = userToDeposit[_user].deposit + getUserRewards(_user);
+    uint256 userETH = balanceOf(_user) + getUserRewards(_user);
     return userETH;
   }
 
   function getUserRewards(address _user) public view override returns (uint256) {
-    UserDeposit storage userDeposit = userToDeposit[_user];
-    uint256 userRewardsPerToken = (rewardsPerToken - userDeposit.rewardsPerTokenCredited) / 1 ether;
-    uint256 userRewards = userRewardsPerToken * userDeposit.deposit + userDeposit.unclaimedRewards;
+    uint256 userRewardsPerToken = (rewardsPerToken - userToRewardsPerTokenCredited[_user]) / 1 ether;
+    uint256 userRewards = userRewardsPerToken * balanceOf(_user) + userToUnclaimedRewards[_user];
     return userRewards;
+  }
+
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 //amount
+  ) internal override {
+    if (from == address(0)) {
+      userToUnclaimedRewards[to] = getUserRewards(to);
+      userToRewardsPerTokenCredited[to] = rewardsPerToken;
+    } else if (to == address(0)) {
+      delete userToUnclaimedRewards[from];
+      delete userToRewardsPerTokenCredited[from];
+    } else {
+      userToUnclaimedRewards[from] = getUserRewards(from);
+      userToRewardsPerTokenCredited[from] = rewardsPerToken;
+      userToUnclaimedRewards[to] = getUserRewards(to);
+      userToRewardsPerTokenCredited[to] = rewardsPerToken;
+    }
   }
 }

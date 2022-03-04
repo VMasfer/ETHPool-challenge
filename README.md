@@ -53,3 +53,55 @@ Bonus:
 Create a script (or a Hardhat task) to query the total amount of ETH held in the contract.
 
 _You can use any library you prefer: Ethers.js, Web3.js, Web3.py, eth-brownie_
+
+## Instructions to run the repo
+
+Here's a brief guide on how to run this project together with the code.
+
+### Cloning the repo
+
+To clone this repo and install its dependencies, run in your terminal:
+
+```
+git clone https://github.com/VMasfer/ETHPool-challenge.git
+cd ETHPool-challenge
+yarn install
+```
+
+### Creating a `.env` file
+
+- Copy `.env.example` and rename it to `.env`
+- Get an API key from an RPC provider (e.g. [Alchemy](https://www.alchemy.com/))
+- Get your crypto wallet private key
+- Optionally, get an API key from [Etherscan](https://etherscan.io/) (only for verifying smart contracts)
+- Fill in the `.env` file
+
+### Running the tests
+
+To run the unit tests, do:
+
+```
+yarn test
+```
+
+### Deploying the contract
+
+To deploy the contract to Ropsten testnet and to verify it on Etherscan, execute:
+
+```
+npx hardhat --network ropsten deploy
+```
+
+- **_ETHPool v3.0.0_**: [0x209f302Ca931fBDA170D6c63AC9EaB7CE2b17b42](https://ropsten.etherscan.io/address/0x209f302Ca931fBDA170D6c63AC9EaB7CE2b17b42)
+- _ETHPool v2.0.0_: [0xaBc891A704260D5B3395A6295d8466276E78c306](https://ropsten.etherscan.io/address/0xaBc891A704260D5B3395A6295d8466276E78c306)
+- _ETHPool v1.0.0_: [0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA](https://ropsten.etherscan.io/address/0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA)
+
+For a detailed and exhaustive list of changes, see **[CHANGELOG.md](/CHANGELOG.md)**.
+
+### Running the task
+
+To execute the Hardhat task that queries the total amount of ETH held in the contract, type:
+
+```
+npx hardhat --network ropsten query-eth [--eth-pool <CONTRACT_ADDRESS>]
+```
