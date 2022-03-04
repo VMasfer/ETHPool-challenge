@@ -1,0 +1,815 @@
+{
+  "address": "0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_team",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_reward",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ethPool",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_week",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "PoolRewardDeposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "TeamETHReceived",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_withdrawer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "TeamETHWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_deposit",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_week",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "UserETHDeposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_withdrawer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_week",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "UserETHWithdrawn",
+      "type": "event"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "inputs": [],
+      "name": "depositPoolReward",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "depositUserETH",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ethPool",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getPoolRewards",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "team",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reward",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "ethPool",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "week",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IETHPool.PoolReward[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTeamETH",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserETH",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserTotalRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "poolRewards",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "team",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "reward",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "ethPool",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "week",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "date",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "rewardTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalPoolRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalUserETHDeposited",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalUserETHWithdrawn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userToDeposit",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deposit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "week",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "date",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userToTotalETHDeposited",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userToTotalETHWithdrawn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "week",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawTeamETH",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawUserETH",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0xf138fc7ee50f5a210610bba5fb5e2c1f48b24594a35bc457c72d39623ae014a0",
+  "receipt": {
+    "to": null,
+    "from": "0x989A31A70cfDb86160d4131fEE7092A8f8702Ed8",
+    "contractAddress": "0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA",
+    "transactionIndex": 17,
+    "gasUsed": "1125301",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000001000000000000000000000000000000000000020000000001000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000004000000000000000000000000000000000021000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x619aaa6d0eef79d3600b80f633f0f12cfb7198faf97527fb9c4d12a736d4e96b",
+    "transactionHash": "0xf138fc7ee50f5a210610bba5fb5e2c1f48b24594a35bc457c72d39623ae014a0",
+    "logs": [
+      {
+        "transactionIndex": 17,
+        "blockNumber": 11889409,
+        "transactionHash": "0xf138fc7ee50f5a210610bba5fb5e2c1f48b24594a35bc457c72d39623ae014a0",
+        "address": "0x01046b6f6d931f8eCeda6E1c89d0c3e3EeD3c5bA",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000989a31a70cfdb86160d4131fee7092a8f8702ed8"
+        ],
+        "data": "0x",
+        "logIndex": 17,
+        "blockHash": "0x619aaa6d0eef79d3600b80f633f0f12cfb7198faf97527fb9c4d12a736d4e96b"
+      }
+    ],
+    "blockNumber": 11889409,
+    "cumulativeGasUsed": "4109174",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "9d3a5d355414767b8d6f4c9fb713d40e",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.7+commit.e28d00a7\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_team\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_reward\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_ethPool\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_week\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_date\",\"type\":\"uint256\"}],\"name\":\"PoolRewardDeposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"TeamETHReceived\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_withdrawer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"TeamETHWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_deposit\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_week\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_date\",\"type\":\"uint256\"}],\"name\":\"UserETHDeposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_withdrawer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_week\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_date\",\"type\":\"uint256\"}],\"name\":\"UserETHWithdrawn\",\"type\":\"event\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[],\"name\":\"depositPoolReward\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"depositUserETH\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"ethPool\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPoolRewards\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"team\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ethPool\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"week\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"date\",\"type\":\"uint256\"}],\"internalType\":\"struct IETHPool.PoolReward[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTeamETH\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"}],\"name\":\"getUserETH\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"}],\"name\":\"getUserRewards\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"}],\"name\":\"getUserTotalRewards\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"poolRewards\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"team\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ethPool\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"week\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"date\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"rewardTime\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalPoolRewards\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalUserETHDeposited\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalUserETHWithdrawn\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"userToDeposit\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"deposit\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"week\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"date\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"userToTotalETHDeposited\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"userToTotalETHWithdrawn\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"week\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"withdrawTeamETH\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"withdrawUserETH\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/ETHPool.sol\":\"ETHPool\"},\"evmVersion\":\"london\",\"libraries\":{\":__CACHE_BREAKER__\":\"0x00000000d41867734bbee4c6863d9255b2b06ac1\"},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the deployer as the initial owner.\\n     */\\n    constructor() {\\n        _setOwner(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        require(owner() == _msgSender(), \\\"Ownable: caller is not the owner\\\");\\n        _;\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions anymore. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby removing any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _setOwner(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        require(newOwner != address(0), \\\"Ownable: new owner is the zero address\\\");\\n        _setOwner(newOwner);\\n    }\\n\\n    function _setOwner(address newOwner) private {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0x6bb804a310218875e89d12c053e94a13a4607cdf7cc2052f3e52bd32a0dc50a1\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n}\\n\",\"keccak256\":\"0x90565a39ae45c80f0468dc96c7b20d0afc3055f344c8203a0c9258239f350b9f\",\"license\":\"MIT\"},\"contracts/ETHPool.sol\":{\"content\":\"//SPDX-License-Identifier: Unlicense\\npragma solidity >=0.8.4 <0.9.0;\\n\\nimport '@openzeppelin/contracts/access/Ownable.sol';\\nimport './IETHPool.sol';\\n\\ncontract ETHPool is IETHPool, Ownable {\\n  PoolReward[] public poolRewards;\\n  mapping(address => UserDeposit) public userToDeposit;\\n  mapping(address => uint256) public userToTotalETHDeposited;\\n  mapping(address => uint256) public userToTotalETHWithdrawn;\\n  mapping(address => uint256) private _userToTotalRewards;\\n  uint256 public totalUserETHDeposited;\\n  uint256 public totalUserETHWithdrawn;\\n  uint256 public totalPoolRewards;\\n  uint256 public ethPool;\\n  uint256 public week;\\n  uint256 public rewardTime;\\n\\n  event UserETHDeposited(address indexed _user, uint256 _deposit, uint256 indexed _week, uint256 _date);\\n  event UserETHWithdrawn(address indexed _withdrawer, uint256 _value, uint256 indexed _week, uint256 _date);\\n  event PoolRewardDeposited(address indexed _team, uint256 _reward, uint256 _ethPool, uint256 _week, uint256 _date);\\n  event TeamETHReceived(address indexed _sender, uint256 _value);\\n  event TeamETHWithdrawn(address indexed _withdrawer, uint256 _value);\\n\\n  receive() external payable onlyOwner {\\n    emit TeamETHReceived(msg.sender, msg.value);\\n  }\\n\\n  fallback() external payable {\\n    revert('Wrong call to contract');\\n  }\\n\\n  function depositUserETH() external payable override {\\n    require(msg.value != 0, 'No ether sent to deposit');\\n    uint256 userRewards = getUserRewards(msg.sender);\\n    uint256 userETH = userToDeposit[msg.sender].deposit + userRewards;\\n    UserDeposit memory userDeposit;\\n    userDeposit.user = msg.sender;\\n    userDeposit.deposit = userETH + msg.value;\\n    userDeposit.week = week;\\n    userDeposit.date = block.timestamp;\\n    userToDeposit[msg.sender] = userDeposit;\\n    userToTotalETHDeposited[msg.sender] += msg.value;\\n    totalUserETHDeposited += msg.value;\\n    ethPool += msg.value;\\n    _userToTotalRewards[msg.sender] += userRewards;\\n    emit UserETHDeposited(msg.sender, msg.value, week, block.timestamp);\\n  }\\n\\n  function withdrawUserETH(uint256 _value) external override {\\n    //solhint-disable-next-line\\n    require(address(this).balance >= _value, 'Insufficient ether in contract balance');\\n    uint256 userRewards = getUserRewards(msg.sender);\\n    uint256 userETH = userToDeposit[msg.sender].deposit + userRewards;\\n    //solhint-disable-next-line\\n    require(userETH >= _value, 'Insufficient ether in user balance');\\n    if (userETH == _value) {\\n      delete userToDeposit[msg.sender];\\n    } else {\\n      UserDeposit memory userDeposit;\\n      userDeposit.user = msg.sender;\\n      userDeposit.deposit = userETH - _value;\\n      userDeposit.week = week;\\n      userDeposit.date = block.timestamp;\\n      userToDeposit[msg.sender] = userDeposit;\\n    }\\n    userToTotalETHWithdrawn[msg.sender] += _value;\\n    totalUserETHWithdrawn += _value;\\n    ethPool -= _value;\\n    _userToTotalRewards[msg.sender] += userRewards;\\n    emit UserETHWithdrawn(msg.sender, _value, week, block.timestamp);\\n    //solhint-disable-next-line\\n    (bool sent, ) = msg.sender.call{value: _value}('');\\n    require(sent, 'Failed to send ether');\\n  }\\n\\n  function depositPoolReward() external payable onlyOwner {\\n    require(ethPool != 0, 'Nothing to reward');\\n    require(rewardTime <= block.timestamp, 'It has not been a week yet');\\n    PoolReward memory poolReward;\\n    poolReward.team = msg.sender;\\n    poolReward.reward = msg.value;\\n    poolReward.ethPool = ethPool;\\n    poolReward.week = week;\\n    poolReward.date = block.timestamp;\\n    poolRewards.push(poolReward);\\n    emit PoolRewardDeposited(msg.sender, msg.value, ethPool, week, block.timestamp);\\n    totalPoolRewards += msg.value;\\n    ethPool += msg.value;\\n    week++;\\n    rewardTime = block.timestamp + 1 weeks;\\n  }\\n\\n  function withdrawTeamETH(uint256 _value) external onlyOwner {\\n    //solhint-disable-next-line\\n    require(address(this).balance >= _value, 'Insufficient ether in contract balance');\\n    emit TeamETHWithdrawn(msg.sender, _value);\\n    //solhint-disable-next-line\\n    (bool sent, ) = msg.sender.call{value: _value}('');\\n    require(sent, 'Failed to send ether');\\n  }\\n\\n  function getPoolRewards() external view override returns (PoolReward[] memory) {\\n    return poolRewards;\\n  }\\n\\n  function getTeamETH() external view override returns (uint256) {\\n    uint256 teamETH = address(this).balance;\\n    return teamETH;\\n  }\\n\\n  function getUserETH(address _user) external view override returns (uint256) {\\n    uint256 userETH = userToDeposit[_user].deposit + getUserRewards(_user);\\n    return userETH;\\n  }\\n\\n  function getUserTotalRewards(address _user) external view override returns (uint256) {\\n    uint256 userTotalRewards = _userToTotalRewards[_user] + getUserRewards(_user);\\n    return userTotalRewards;\\n  }\\n\\n  function getUserRewards(address _user) public view override returns (uint256) {\\n    uint256 userRewards;\\n    if (userToDeposit[_user].deposit != 0) {\\n      for (uint256 i = userToDeposit[_user].week; i < poolRewards.length; i++) {\\n        uint256 poolPercentage = ((userToDeposit[_user].deposit + userRewards) * 100) / poolRewards[i].ethPool;\\n        uint256 userReward = (poolRewards[i].reward * poolPercentage) / 100;\\n        userRewards += userReward;\\n      }\\n    }\\n    return userRewards;\\n  }\\n}\\n\",\"keccak256\":\"0xe52c2201fdd7514584296efc72b2ef5ce8e77c12231f9764fb0a0647ae4a0000\",\"license\":\"Unlicense\"},\"contracts/IETHPool.sol\":{\"content\":\"//SPDX-License-Identifier: Unlicense\\npragma solidity >=0.8.4 <0.9.0;\\n\\ninterface IETHPool {\\n  struct UserDeposit {\\n    address user;\\n    uint256 deposit;\\n    uint256 week;\\n    uint256 date;\\n  }\\n  struct PoolReward {\\n    address team;\\n    uint256 reward;\\n    uint256 ethPool;\\n    uint256 week;\\n    uint256 date;\\n  }\\n\\n  function depositUserETH() external payable;\\n\\n  function withdrawUserETH(uint256 _value) external;\\n\\n  function getPoolRewards() external view returns (PoolReward[] memory);\\n\\n  function getTeamETH() external view returns (uint256);\\n\\n  function getUserETH(address _user) external view returns (uint256);\\n\\n  function getUserTotalRewards(address _user) external view returns (uint256);\\n\\n  function getUserRewards(address _user) external view returns (uint256);\\n}\\n\",\"keccak256\":\"0xda0e13511a38479c80fcb87d0176dcddb8850ee0439fec920ccd649b6a495098\",\"license\":\"Unlicense\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b61006f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6112f08061007e6000396000f3fe6080604052600436106101395760003560e01c80638da5cb5b116100ab578063b989ca3e1161006f578063b989ca3e1461043a578063dfc7e8a814610442578063e80012881461044a578063e81a281b1461049c578063f16673a4146104b2578063f2fde38b146104c8576101a8565b80638da5cb5b146103a45780638e850698146103cc5780638f3d63da146103e257806391b66fd514610404578063997ca8c71461041a576101a8565b80635b19390a116100fd5780635b19390a146102a1578063666c4b5c146102b457806366c12700146102d45780636db00c5e14610301578063715018a6146103175780637ae636681461032c576101a8565b8063078b0fb7146101e9578063292901b11461021c5780632bcc7211146102495780634995b458146102695780634ec591c01461027f576101a8565b366101a8576000546001600160a01b031633146101715760405162461bcd60e51b8152600401610168906111ce565b60405180910390fd5b60405134815233907fb45996932dc75c82d0a34ec6559ade7e5ff091b42054be283e2577f7cc6a0a0b9060200160405180910390a2005b60405162461bcd60e51b815260206004820152601660248201527515dc9bdb99c818d85b1b081d1bc818dbdb9d1c9858dd60521b6044820152606401610168565b3480156101f557600080fd5b506102096102043660046110cf565b6104e8565b6040519081526020015b60405180910390f35b34801561022857600080fd5b506102096102373660046110cf565b60046020526000908152604090205481565b34801561025557600080fd5b506102096102643660046110cf565b610600565b34801561027557600080fd5b50610209600a5481565b34801561028b57600080fd5b5061029f61029a3660046110f8565b610639565b005b3480156102ad57600080fd5b5047610209565b3480156102c057600080fd5b506102096102cf3660046110cf565b610908565b3480156102e057600080fd5b506102096102ef3660046110cf565b60036020526000908152604090205481565b34801561030d57600080fd5b5061020960075481565b34801561032357600080fd5b5061029f610937565b34801561033857600080fd5b5061037a6103473660046110cf565b600260208190526000918252604090912080546001820154928201546003909201546001600160a01b0390911692919084565b604080516001600160a01b0390951685526020850193909352918301526060820152608001610213565b3480156103b057600080fd5b506000546040516001600160a01b039091168152602001610213565b3480156103d857600080fd5b5061020960085481565b3480156103ee57600080fd5b506103f761096d565b6040516102139190611111565b34801561041057600080fd5b50610209600b5481565b34801561042657600080fd5b5061029f6104353660046110f8565b610a01565b61029f610b13565b61029f610dcc565b34801561045657600080fd5b5061046a6104653660046110f8565b610f99565b604080516001600160a01b0390961686526020860194909452928401919091526060830152608082015260a001610213565b3480156104a857600080fd5b5061020960065481565b3480156104be57600080fd5b5061020960095481565b3480156104d457600080fd5b5061029f6104e33660046110cf565b610fe4565b6001600160a01b0381166000908152600260205260408120600101548190156105fa576001600160a01b038316600090815260026020819052604090912001545b6001548110156105f857600060018281548110610548576105486112a4565b6000918252602080832060026005909302018201546001600160a01b0389168452919052604090912060010154610580908590611203565b61058b90606461123d565b610595919061121b565b90506000606482600185815481106105af576105af6112a4565b9060005260206000209060050201600101546105cb919061123d565b6105d5919061121b565b90506105e18185611203565b9350505080806105f090611273565b915050610529565b505b92915050565b60008061060c836104e8565b6001600160a01b0384166000908152600260205260409020600101546106329190611203565b9392505050565b804710156106595760405162461bcd60e51b815260040161016890611188565b6000610664336104e8565b3360009081526002602052604081206001015491925090610686908390611203565b9050828110156106e35760405162461bcd60e51b815260206004820152602260248201527f496e73756666696369656e7420657468657220696e20757365722062616c616e604482015261636560f01b6064820152608401610168565b8281141561072057336000908152600260208190526040822080546001600160a01b031916815560018101839055908101829055600301556107bc565b610754604051806080016040528060006001600160a01b031681526020016000815260200160008152602001600081525090565b338152610761848361125c565b6020828101918252600a546040808501918252426060860190815233600090815260029485905291909120945185546001600160a01b0319166001600160a01b03909116178555925160018501555190830155516003909101555b33600090815260046020526040812080548592906107db908490611203565b9250508190555082600760008282546107f49190611203565b92505081905550826009600082825461080d919061125c565b90915550503360009081526005602052604081208054849290610831908490611203565b9091555050600a546040805185815242602082015233917f5c7a4c8a284cc48844ac918672c1973ba5e21872b03461d553bb2c1f922c25a7910160405180910390a3604051600090339085908381818185875af1925050503d80600081146108b5576040519150601f19603f3d011682016040523d82523d6000602084013e6108ba565b606091505b50509050806109025760405162461bcd60e51b81526020600482015260146024820152732330b4b632b2103a379039b2b7321032ba3432b960611b6044820152606401610168565b50505050565b600080610914836104e8565b6001600160a01b0384166000908152600560205260409020546106329190611203565b6000546001600160a01b031633146109615760405162461bcd60e51b8152600401610168906111ce565b61096b600061107f565b565b60606001805480602002602001604051908101604052809291908181526020016000905b828210156109f85760008481526020908190206040805160a0810182526005860290920180546001600160a01b0316835260018082015484860152600282015492840192909252600381015460608401526004015460808301529083529092019101610991565b50505050905090565b6000546001600160a01b03163314610a2b5760405162461bcd60e51b8152600401610168906111ce565b80471015610a4b5760405162461bcd60e51b815260040161016890611188565b60405181815233907fda497d6b1b170cf66948882bb5a6d410fc151108531a010b70cec1444f0311429060200160405180910390a2604051600090339083908381818185875af1925050503d8060008114610ac2576040519150601f19603f3d011682016040523d82523d6000602084013e610ac7565b606091505b5050905080610b0f5760405162461bcd60e51b81526020600482015260146024820152732330b4b632b2103a379039b2b7321032ba3432b960611b6044820152606401610168565b5050565b6000546001600160a01b03163314610b3d5760405162461bcd60e51b8152600401610168906111ce565b600954610b805760405162461bcd60e51b8152602060048201526011602482015270139bdd1a1a5b99c81d1bc81c995dd85c99607a1b6044820152606401610168565b42600b541115610bd25760405162461bcd60e51b815260206004820152601a60248201527f497420686173206e6f74206265656e2061207765656b207965740000000000006044820152606401610168565b610c0d6040518060a0016040528060006001600160a01b03168152602001600081526020016000815260200160008152602001600081525090565b33808252346020808401828152600980546040808801918252600a80546060808b01918252426080808d018281526001805480820182556000919091528e517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6600590920291820180546001600160a01b0319166001600160a01b0390921691909117905599517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf78b015596517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf88a015592517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf989015594517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cfa9097019690965593549054825197885295870152850193909352908301919091527fea946e320e7a80fb9519e2f787967c8cf148d58b56f3b94e339eeab9d849d4e5910160405180910390a23460086000828254610d859190611203565b925050819055503460096000828254610d9e9190611203565b9091555050600a8054906000610db383611273565b90915550610dc690504262093a80611203565b600b5550565b34610e195760405162461bcd60e51b815260206004820152601860248201527f4e6f2065746865722073656e7420746f206465706f73697400000000000000006044820152606401610168565b6000610e24336104e8565b3360009081526002602052604081206001015491925090610e46908390611203565b9050610e7c604051806080016040528060006001600160a01b031681526020016000815260200160008152602001600081525090565b338152610e893483611203565b6020828101918252600a54604080850191825242606086019081523360009081526002808652838220885181546001600160a01b0319166001600160a01b039091161781559651600188015593519386019390935551600394850155929091529081208054349290610efc908490611203565b925050819055503460066000828254610f159190611203565b925050819055503460096000828254610f2e9190611203565b90915550503360009081526005602052604081208054859290610f52908490611203565b9091555050600a546040805134815242602082015233917feaae6b4e5e4bd0b1973b717794d36b6a2b7bd046847ac1f974620437d143f98a910160405180910390a3505050565b60018181548110610fa957600080fd5b6000918252602090912060059091020180546001820154600283015460038401546004909401546001600160a01b0390931694509092909185565b6000546001600160a01b0316331461100e5760405162461bcd60e51b8152600401610168906111ce565b6001600160a01b0381166110735760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b6064820152608401610168565b61107c8161107f565b50565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000602082840312156110e157600080fd5b81356001600160a01b038116811461063257600080fd5b60006020828403121561110a57600080fd5b5035919050565b602080825282518282018190526000919060409081850190868401855b8281101561117b57815180516001600160a01b0316855286810151878601528581015186860152606080820151908601526080908101519085015260a0909301929085019060010161112e565b5091979650505050505050565b60208082526026908201527f496e73756666696369656e7420657468657220696e20636f6e74726163742062604082015265616c616e636560d01b606082015260800190565b6020808252818101527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604082015260600190565b600082198211156112165761121661128e565b500190565b60008261123857634e487b7160e01b600052601260045260246000fd5b500490565b60008160001904831182151516156112575761125761128e565b500290565b60008282101561126e5761126e61128e565b500390565b60006000198214156112875761128761128e565b5060010190565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052603260045260246000fdfea264697066735822122032f3b6d6712c75fcba6efd68d0880999ad5e2a5060aec491a868f94fc89cc45664736f6c63430008070033",
+  "deployedBytecode": "0x6080604052600436106101395760003560e01c80638da5cb5b116100ab578063b989ca3e1161006f578063b989ca3e1461043a578063dfc7e8a814610442578063e80012881461044a578063e81a281b1461049c578063f16673a4146104b2578063f2fde38b146104c8576101a8565b80638da5cb5b146103a45780638e850698146103cc5780638f3d63da146103e257806391b66fd514610404578063997ca8c71461041a576101a8565b80635b19390a116100fd5780635b19390a146102a1578063666c4b5c146102b457806366c12700146102d45780636db00c5e14610301578063715018a6146103175780637ae636681461032c576101a8565b8063078b0fb7146101e9578063292901b11461021c5780632bcc7211146102495780634995b458146102695780634ec591c01461027f576101a8565b366101a8576000546001600160a01b031633146101715760405162461bcd60e51b8152600401610168906111ce565b60405180910390fd5b60405134815233907fb45996932dc75c82d0a34ec6559ade7e5ff091b42054be283e2577f7cc6a0a0b9060200160405180910390a2005b60405162461bcd60e51b815260206004820152601660248201527515dc9bdb99c818d85b1b081d1bc818dbdb9d1c9858dd60521b6044820152606401610168565b3480156101f557600080fd5b506102096102043660046110cf565b6104e8565b6040519081526020015b60405180910390f35b34801561022857600080fd5b506102096102373660046110cf565b60046020526000908152604090205481565b34801561025557600080fd5b506102096102643660046110cf565b610600565b34801561027557600080fd5b50610209600a5481565b34801561028b57600080fd5b5061029f61029a3660046110f8565b610639565b005b3480156102ad57600080fd5b5047610209565b3480156102c057600080fd5b506102096102cf3660046110cf565b610908565b3480156102e057600080fd5b506102096102ef3660046110cf565b60036020526000908152604090205481565b34801561030d57600080fd5b5061020960075481565b34801561032357600080fd5b5061029f610937565b34801561033857600080fd5b5061037a6103473660046110cf565b600260208190526000918252604090912080546001820154928201546003909201546001600160a01b0390911692919084565b604080516001600160a01b0390951685526020850193909352918301526060820152608001610213565b3480156103b057600080fd5b506000546040516001600160a01b039091168152602001610213565b3480156103d857600080fd5b5061020960085481565b3480156103ee57600080fd5b506103f761096d565b6040516102139190611111565b34801561041057600080fd5b50610209600b5481565b34801561042657600080fd5b5061029f6104353660046110f8565b610a01565b61029f610b13565b61029f610dcc565b34801561045657600080fd5b5061046a6104653660046110f8565b610f99565b604080516001600160a01b0390961686526020860194909452928401919091526060830152608082015260a001610213565b3480156104a857600080fd5b5061020960065481565b3480156104be57600080fd5b5061020960095481565b3480156104d457600080fd5b5061029f6104e33660046110cf565b610fe4565b6001600160a01b0381166000908152600260205260408120600101548190156105fa576001600160a01b038316600090815260026020819052604090912001545b6001548110156105f857600060018281548110610548576105486112a4565b6000918252602080832060026005909302018201546001600160a01b0389168452919052604090912060010154610580908590611203565b61058b90606461123d565b610595919061121b565b90506000606482600185815481106105af576105af6112a4565b9060005260206000209060050201600101546105cb919061123d565b6105d5919061121b565b90506105e18185611203565b9350505080806105f090611273565b915050610529565b505b92915050565b60008061060c836104e8565b6001600160a01b0384166000908152600260205260409020600101546106329190611203565b9392505050565b804710156106595760405162461bcd60e51b815260040161016890611188565b6000610664336104e8565b3360009081526002602052604081206001015491925090610686908390611203565b9050828110156106e35760405162461bcd60e51b815260206004820152602260248201527f496e73756666696369656e7420657468657220696e20757365722062616c616e604482015261636560f01b6064820152608401610168565b8281141561072057336000908152600260208190526040822080546001600160a01b031916815560018101839055908101829055600301556107bc565b610754604051806080016040528060006001600160a01b031681526020016000815260200160008152602001600081525090565b338152610761848361125c565b6020828101918252600a546040808501918252426060860190815233600090815260029485905291909120945185546001600160a01b0319166001600160a01b03909116178555925160018501555190830155516003909101555b33600090815260046020526040812080548592906107db908490611203565b9250508190555082600760008282546107f49190611203565b92505081905550826009600082825461080d919061125c565b90915550503360009081526005602052604081208054849290610831908490611203565b9091555050600a546040805185815242602082015233917f5c7a4c8a284cc48844ac918672c1973ba5e21872b03461d553bb2c1f922c25a7910160405180910390a3604051600090339085908381818185875af1925050503d80600081146108b5576040519150601f19603f3d011682016040523d82523d6000602084013e6108ba565b606091505b50509050806109025760405162461bcd60e51b81526020600482015260146024820152732330b4b632b2103a379039b2b7321032ba3432b960611b6044820152606401610168565b50505050565b600080610914836104e8565b6001600160a01b0384166000908152600560205260409020546106329190611203565b6000546001600160a01b031633146109615760405162461bcd60e51b8152600401610168906111ce565b61096b600061107f565b565b60606001805480602002602001604051908101604052809291908181526020016000905b828210156109f85760008481526020908190206040805160a0810182526005860290920180546001600160a01b0316835260018082015484860152600282015492840192909252600381015460608401526004015460808301529083529092019101610991565b50505050905090565b6000546001600160a01b03163314610a2b5760405162461bcd60e51b8152600401610168906111ce565b80471015610a4b5760405162461bcd60e51b815260040161016890611188565b60405181815233907fda497d6b1b170cf66948882bb5a6d410fc151108531a010b70cec1444f0311429060200160405180910390a2604051600090339083908381818185875af1925050503d8060008114610ac2576040519150601f19603f3d011682016040523d82523d6000602084013e610ac7565b606091505b5050905080610b0f5760405162461bcd60e51b81526020600482015260146024820152732330b4b632b2103a379039b2b7321032ba3432b960611b6044820152606401610168565b5050565b6000546001600160a01b03163314610b3d5760405162461bcd60e51b8152600401610168906111ce565b600954610b805760405162461bcd60e51b8152602060048201526011602482015270139bdd1a1a5b99c81d1bc81c995dd85c99607a1b6044820152606401610168565b42600b541115610bd25760405162461bcd60e51b815260206004820152601a60248201527f497420686173206e6f74206265656e2061207765656b207965740000000000006044820152606401610168565b610c0d6040518060a0016040528060006001600160a01b03168152602001600081526020016000815260200160008152602001600081525090565b33808252346020808401828152600980546040808801918252600a80546060808b01918252426080808d018281526001805480820182556000919091528e517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6600590920291820180546001600160a01b0319166001600160a01b0390921691909117905599517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf78b015596517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf88a015592517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf989015594517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cfa9097019690965593549054825197885295870152850193909352908301919091527fea946e320e7a80fb9519e2f787967c8cf148d58b56f3b94e339eeab9d849d4e5910160405180910390a23460086000828254610d859190611203565b925050819055503460096000828254610d9e9190611203565b9091555050600a8054906000610db383611273565b90915550610dc690504262093a80611203565b600b5550565b34610e195760405162461bcd60e51b815260206004820152601860248201527f4e6f2065746865722073656e7420746f206465706f73697400000000000000006044820152606401610168565b6000610e24336104e8565b3360009081526002602052604081206001015491925090610e46908390611203565b9050610e7c604051806080016040528060006001600160a01b031681526020016000815260200160008152602001600081525090565b338152610e893483611203565b6020828101918252600a54604080850191825242606086019081523360009081526002808652838220885181546001600160a01b0319166001600160a01b039091161781559651600188015593519386019390935551600394850155929091529081208054349290610efc908490611203565b925050819055503460066000828254610f159190611203565b925050819055503460096000828254610f2e9190611203565b90915550503360009081526005602052604081208054859290610f52908490611203565b9091555050600a546040805134815242602082015233917feaae6b4e5e4bd0b1973b717794d36b6a2b7bd046847ac1f974620437d143f98a910160405180910390a3505050565b60018181548110610fa957600080fd5b6000918252602090912060059091020180546001820154600283015460038401546004909401546001600160a01b0390931694509092909185565b6000546001600160a01b0316331461100e5760405162461bcd60e51b8152600401610168906111ce565b6001600160a01b0381166110735760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b6064820152608401610168565b61107c8161107f565b50565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000602082840312156110e157600080fd5b81356001600160a01b038116811461063257600080fd5b60006020828403121561110a57600080fd5b5035919050565b602080825282518282018190526000919060409081850190868401855b8281101561117b57815180516001600160a01b0316855286810151878601528581015186860152606080820151908601526080908101519085015260a0909301929085019060010161112e565b5091979650505050505050565b60208082526026908201527f496e73756666696369656e7420657468657220696e20636f6e74726163742062604082015265616c616e636560d01b606082015260800190565b6020808252818101527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604082015260600190565b600082198211156112165761121661128e565b500190565b60008261123857634e487b7160e01b600052601260045260246000fd5b500490565b60008160001904831182151516156112575761125761128e565b500290565b60008282101561126e5761126e61128e565b500390565b60006000198214156112875761128761128e565b5060010190565b634e487b7160e01b600052601160045260246000fd5b634e487b7160e01b600052603260045260246000fdfea264697066735822122032f3b6d6712c75fcba6efd68d0880999ad5e2a5060aec491a868f94fc89cc45664736f6c63430008070033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 7,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 137,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "poolRewards",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_struct(PoolReward)776_storage)dyn_storage"
+      },
+      {
+        "astId": 142,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "userToDeposit",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_struct(UserDeposit)765_storage)"
+      },
+      {
+        "astId": 146,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "userToTotalETHDeposited",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 150,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "userToTotalETHWithdrawn",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 154,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "_userToTotalRewards",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 156,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "totalUserETHDeposited",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 158,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "totalUserETHWithdrawn",
+        "offset": 0,
+        "slot": "7",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 160,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "totalPoolRewards",
+        "offset": 0,
+        "slot": "8",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 162,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "ethPool",
+        "offset": 0,
+        "slot": "9",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 164,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "week",
+        "offset": 0,
+        "slot": "10",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 166,
+        "contract": "contracts/ETHPool.sol:ETHPool",
+        "label": "rewardTime",
+        "offset": 0,
+        "slot": "11",
+        "type": "t_uint256"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(PoolReward)776_storage)dyn_storage": {
+        "base": "t_struct(PoolReward)776_storage",
+        "encoding": "dynamic_array",
+        "label": "struct IETHPool.PoolReward[]",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_struct(UserDeposit)765_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct IETHPool.UserDeposit)",
+        "numberOfBytes": "32",
+        "value": "t_struct(UserDeposit)765_storage"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_struct(PoolReward)776_storage": {
+        "encoding": "inplace",
+        "label": "struct IETHPool.PoolReward",
+        "members": [
+          {
+            "astId": 767,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "team",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 769,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "reward",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 771,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "ethPool",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 773,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "week",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 775,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "date",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "160"
+      },
+      "t_struct(UserDeposit)765_storage": {
+        "encoding": "inplace",
+        "label": "struct IETHPool.UserDeposit",
+        "members": [
+          {
+            "astId": 758,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "user",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 760,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "deposit",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 762,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "week",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 764,
+            "contract": "contracts/ETHPool.sol:ETHPool",
+            "label": "date",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
